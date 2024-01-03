@@ -43,7 +43,9 @@ export default function Login() {
               <Form>
                 <Box className="flex gap-2">
                  
-                <CustomInput/>
+                <CustomInput value={""} type={""} onChange={function (e: any): void {
+                    console.log(e)
+                  } }/>
                 </Box>
                 <div>
                   <label htmlFor="email">Email:</label>

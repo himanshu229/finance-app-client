@@ -1,26 +1,49 @@
-import { Email } from "@mui/icons-material";
 import { TextField } from "@mui/material";
-import React, { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode, memo } from "react";
 
 interface PropsType {
   value: string;
   type: string;
+  id?: string;
+  placeholder?: string;
+  defaultValue?: string;
+  error?: boolean;
+  className?: string;
+  helperText?: string;
+  icons?: ReactNode;
+  onChange: (e: any) => void;
+  onBlur?: (e: any) => void;
 }
 
 const CustomInput: FunctionComponent<PropsType> = (props) => {
-  const { value, type } = props;
+  const {
+    value,
+    type,
+    id,
+    placeholder,
+    defaultValue,
+    error,
+    className,
+    helperText,
+    icons,
+    onChange,
+    onBlur,
+  } = props;
   return (
     <TextField
-      error
+      error={error}
       value={value}
-      type="text"
-      id="outlined-error-helper-text"
-      label="Error"
-      defaultValue="Hello World"
-      helperText="Incorrect entry."
+      type={type}
+      id={id}
+      placeholder={placeholder}
+      defaultValue={defaultValue}
+      className={""+className}
+      helperText={helperText}
       InputProps={{
-        endAdornment: <Email className="text-red-500" />,
+        endAdornment: icons,
       }}
+      onChange={(e) => onChange(e)}
+      onBlur={(e) => onBlur && onBlur(e)}
     />
   );
 };
@@ -28,4 +51,4 @@ CustomInput.defaultProps = {
   value: "",
   type: "text",
 };
-export default CustomInput;
+export default memo(CustomInput);
