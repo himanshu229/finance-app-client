@@ -1,16 +1,32 @@
-import { TextField } from "@mui/material";
+import { TextField, styled } from "@mui/material";
 import { FunctionComponent, ReactNode, memo } from "react";
+
+const CustomStyledTextField = styled(TextField)({
+  "& .MuiInputBase-root": {
+    height: "2.4rem",
+    borderRadius: "14px",
+  },
+  "& .MuiFormHelperText-root": {
+    marginLeft: "10px",
+  },
+  "& .MuiInputBase-input": {
+    padding: "7.5px 14px",
+  },
+});
 
 interface PropsType {
   value: string;
+  name: string;
   type: string;
   id?: string;
   placeholder?: string;
   defaultValue?: string;
   error?: boolean;
-  className?: string;
   helperText?: string;
-  icons?: ReactNode;
+  startAdornment?: ReactNode;
+  endAdornment?: ReactNode;
+  autoComplete?: string;
+  variant?: "filled" | "outlined" | "standard";
   onChange: (e: any) => void;
   onBlur?: (e: any) => void;
 }
@@ -23,32 +39,36 @@ const CustomInput: FunctionComponent<PropsType> = (props) => {
     placeholder,
     defaultValue,
     error,
-    className,
     helperText,
-    icons,
+    endAdornment,
+    startAdornment,
     onChange,
     onBlur,
+    autoComplete,
+    variant,
+    name,
   } = props;
   return (
-    <TextField
+    <CustomStyledTextField
+      fullWidth
+      autoComplete={autoComplete}
+      variant={variant}
       error={error}
       value={value}
       type={type}
       id={id}
+      name={name}
       placeholder={placeholder}
       defaultValue={defaultValue}
-      className={""+className}
       helperText={helperText}
       InputProps={{
-        endAdornment: icons,
+        endAdornment: endAdornment,
+        startAdornment: startAdornment,
       }}
       onChange={(e) => onChange(e)}
       onBlur={(e) => onBlur && onBlur(e)}
     />
   );
 };
-CustomInput.defaultProps = {
-  value: "",
-  type: "text",
-};
+
 export default memo(CustomInput);

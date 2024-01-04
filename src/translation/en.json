@@ -1,5 +1,13 @@
 {
   "lang": {
-    "app_welcome_title": "Welcome To Our Finance Application"
+    "app_customer_login": "Customer Login",
+    "app_username": "Username",
+    "app_password": "Password",
+    "app_username_error": "Username is required",
+    "app_password_error_max": "Password should be of minimum 8 characters in length",
+    "app_password_error": "Password is required",
+    "app_submit_btn": "Submit",
+    "app_forget_username": "Forgot Username / Password",
+    "app_create_account": "Create your Account"
   }
 }
