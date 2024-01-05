@@ -16,7 +16,7 @@ const LoginPage = () => {
     <Box className="min-h-screen flex items-center justify-center bg-gradient-to-bl from-darkBlue via-lighterBlue to-lightestBlue">
       <Box className="border-2 bg-white w-2/3 sm:w-1/2 h-96 rounded-xl grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
         <Box className="text-black m-auto hidden lg:block lg:col-span-1">
-          <img src={IMG_Rupess} alt="Rupee image" />
+          <img src={IMG_Rupess} alt="showing the pic" />
         </Box>
         <Box className="xl:w-80">
           <Box className="mt-4 mb-8 lg:mt-12 lg:mb-6">

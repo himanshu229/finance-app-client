@@ -17,10 +17,10 @@ const SingupPage = () => {
     GenderOption,
   } = useSingupContainer();
   return (
-    <Box className="min-h-screen flex items-center justify-center bg-gradient-to-bl from-darkBlue via-lighterBlue to-lightestBlue">
-      <Box className="border-2 bg-white w-2/3 sm:w-1/2 pb-10 rounded-xl p-6">
+    <Box className="min-h-screen flex md:items-center justify-center bg-gradient-to-bl from-darkBlue via-lighterBlue to-lightestBlue">
+      <Box className="border-2 bg-white w-2/3 sm:w-1/2 pb-10 rounded-xl p-6 overflow-auto my-10 lg:my-0">
         <form onSubmit={handleSubmit}>
-          <Box className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:m-4">
+          <Box className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:m-4">
             <Box>
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
                 Your first name
