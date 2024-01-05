@@ -1,0 +1,1 @@
+export { default as IMG_Rupess} from "./rupee-icon.jpg"

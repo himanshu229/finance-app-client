@@ -1,13 +1,21 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300&family=Merriweather:ital,wght@1,300&display=swap');
+
+:root {
+  --dark-blue: #12232e;
+  --lighter-blue: #007cc7;
+  --lightest-blue: #4da8da;
+  --whitest-blue:#acabca;
+  --shadow-dark-blue: #203647;
+  --shadow-light-blue: #203647;
+  --blackish: #202020;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body{
+  margin: 0;
+  padding: 0;
+  color: var(--dark-blue);
+  font-family: 'Almarai', sans-serif;
 }

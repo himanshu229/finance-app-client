@@ -1,0 +1,5 @@
+{
+    "err_username": "Username is required",
+    "err_password_max": "Password should be of minimum 8 characters in length",
+    "err_password": "Password is required"
+}
