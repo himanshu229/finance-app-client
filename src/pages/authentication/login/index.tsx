@@ -6,14 +6,16 @@ import { Box } from "@mui/material";
 import Image from "next/image";
 import useLoginContainer from "./useLoginContainer";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/navigation";
 
 const LoginPage = () => {
   const { values, handleChange, handleBlur, touched, errors, handleSubmit } =
     useLoginContainer();
   const t = useTranslations("lang");
+  const navigate = useRouter()
   return (
     <Box className="min-h-screen flex items-center justify-center bg-gradient-to-bl from-darkBlue via-lighterBlue to-lightestBlue">
-      <Box className="border-2 bg-white w-1/2 h-96 rounded-xl grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
+      <Box className="border-2 bg-white w-2/3 sm:w-1/2 h-96 rounded-xl grid grid-cols-1 lg:grid-cols-2 gap-4 p-6">
         <Box className="text-black m-auto hidden lg:block lg:col-span-1">
           <Image src={IMG_Rupess} alt="Rupee image" />
         </Box>
@@ -34,7 +36,7 @@ const LoginPage = () => {
                   placeholder={`${t.rich("app_username")}`}
                   name="username"
                   value={values.username}
-                  type={"username"}
+                  type={"text"}
                   onChange={(e) => handleChange(e)}
                   onBlur={(e) => handleBlur(e)}
                   error={touched.username && Boolean(errors.username)}
@@ -78,7 +80,7 @@ const LoginPage = () => {
             </p>
           </Box>
           <Box>
-            <Box className="flex justify-center items-center text-sm cursor-pointer gap-2 text-lightestBlue font-semibold mt-8">
+            <Box onClick={()=>navigate.push("/auth/sign-up")} className="flex justify-center items-center text-sm cursor-pointer gap-2 text-lightestBlue font-semibold mt-8">
               <p> {t.rich("app_create_account")} </p>
               <ArrowRightAlt />
             </Box>

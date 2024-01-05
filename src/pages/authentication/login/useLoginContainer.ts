@@ -23,7 +23,7 @@ const useLoginContainer = () => {
       },
     });
 
-  return { values, handleChange, handleBlur, touched, errors, handleSubmit };
+  return { values, touched, errors, handleChange, handleBlur, handleSubmit };
 };
 
 export default useLoginContainer;

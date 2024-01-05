@@ -1,9 +1,12 @@
-import React from 'react'
+"use client";
 
-const index = () => {
+import dynamic from "next/dynamic";
+const SingupPage = dynamic(() => import("@/pages/authentication/sign-up"));
+
+const Singup = () => {
   return (
-    <div>index</div>
+    <SingupPage/>
   )
 }
 
-export default index
+export default Singup

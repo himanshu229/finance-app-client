@@ -12,6 +12,9 @@ const CustomStyledTextField = styled(TextField)({
   "& .MuiInputBase-input": {
     padding: "7.5px 14px",
   },
+  "& .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline": {
+    border: "2px solid var(--lightest-blue)",
+  },
 });
 
 interface PropsType {
@@ -26,6 +29,7 @@ interface PropsType {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
   autoComplete?: string;
+  disabled?: boolean;
   variant?: "filled" | "outlined" | "standard";
   onChange: (e: any) => void;
   onBlur?: (e: any) => void;
@@ -47,6 +51,7 @@ const CustomInput: FunctionComponent<PropsType> = (props) => {
     autoComplete,
     variant,
     name,
+    disabled,
   } = props;
   return (
     <CustomStyledTextField
@@ -57,6 +62,7 @@ const CustomInput: FunctionComponent<PropsType> = (props) => {
       value={value}
       type={type}
       id={id}
+      disabled={disabled}
       name={name}
       placeholder={placeholder}
       defaultValue={defaultValue}
