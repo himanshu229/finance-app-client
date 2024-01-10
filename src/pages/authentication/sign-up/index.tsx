@@ -1,12 +1,15 @@
-
-import { KeyboardBackspace } from "@mui/icons-material";
+import {
+  KeyboardBackspace,
+  RemoveRedEye,
+  VisibilityOff
+} from "@mui/icons-material";
 import { Box } from "@mui/material";
-import useSingupContainer from "./useSingupContainer";
 import { useNavigate } from "react-router-dom";
 import { CustomButton, CustomInput, CustomSelect } from "../../../components";
+import useSingupContainer from "./useSingupContainer";
 
 const SingupPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     values,
     handleChange,
@@ -15,6 +18,8 @@ const SingupPage = () => {
     errors,
     handleSubmit,
     GenderOption,
+    isVisible,
+    setIsVisible,
   } = useSingupContainer();
   return (
     <Box className="min-h-screen flex md:items-center justify-center bg-gradient-to-bl from-darkBlue via-lighterBlue to-lightestBlue">
@@ -23,7 +28,7 @@ const SingupPage = () => {
           <Box className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:m-4">
             <Box>
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
-                Your first name
+                Your first name <span className="text-red-600">*</span>
               </p>
               <CustomInput
                 id="firstname"
@@ -43,7 +48,7 @@ const SingupPage = () => {
             </Box>
             <Box>
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
-                Your last name
+                Your last name <span className="text-red-600">*</span>
               </p>
               <CustomInput
                 id="lastname"
@@ -61,7 +66,7 @@ const SingupPage = () => {
             </Box>
             <Box>
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
-                Your email
+                Your email <span className="text-red-600">*</span>
               </p>
               <CustomInput
                 id="email"
@@ -79,7 +84,7 @@ const SingupPage = () => {
             </Box>
             <Box>
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
-                Your phone number
+                Your phone number <span className="text-red-600">*</span>
               </p>
               <CustomInput
                 id="phonenumber"
@@ -99,23 +104,27 @@ const SingupPage = () => {
             </Box>
             <Box>
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
-                Your Date of Birth
+                Your Date of Birth <span className="text-red-600">*</span>
               </p>
               <CustomInput
-                id="dob"
+                id="dateofbirth"
                 placeholder="Enter"
-                name={"dob"}
+                name={"dateofbirth"}
                 type={"date"}
-                value={values.dob}
+                value={values.dateofbirth}
                 onChange={(e) => handleChange(e)}
                 onBlur={(e) => handleBlur(e)}
-                error={touched.dob && Boolean(errors.dob)}
-                helperText={!!touched.dob && !!errors.dob ? errors.dob : ""}
+                error={touched.dateofbirth && Boolean(errors.dateofbirth)}
+                helperText={
+                  !!touched.dateofbirth && !!errors.dateofbirth
+                    ? errors.dateofbirth
+                    : ""
+                }
               />
             </Box>
             <Box>
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
-                Your Gender
+                Your Gender <span className="text-red-600">*</span>
               </p>
               <CustomSelect
                 id="gender"
@@ -129,6 +138,51 @@ const SingupPage = () => {
                 }
                 displayEmpty
                 data={GenderOption}
+              />
+            </Box>
+            <Box>
+              <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
+                Password <span className="text-red-600">*</span>
+              </p>
+              <CustomInput
+                id="password"
+                placeholder="Enter"
+                type={isVisible ? "text" : "password"}
+                endAdornment={
+                  isVisible ? (
+                    <VisibilityOff
+                      className="cursor-pointer"
+                      onClick={() => setIsVisible(!isVisible)}
+                    />
+                  ) : (
+                    <RemoveRedEye
+                      className="cursor-pointer"
+                      onClick={() => setIsVisible(!isVisible)}
+                    />
+                  )
+                }
+                name={"password"}
+                value={values.password}
+                onChange={(e) => handleChange(e)}
+                onBlur={(e) => handleBlur(e)}
+                error={touched.password && Boolean(errors.password)}
+                helperText={
+                  !!touched.password && !!errors.password ? errors.password : ""
+                }
+              />
+            </Box>
+            <Box>
+              <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
+              Distributor Referral ID
+              </p>
+              <CustomInput
+                id="distrbutorID"
+                placeholder="User ID"
+                name={"distrbutorID"}
+                type={"text"}
+                value={values.distrbutorID}
+                onChange={(e) => handleChange(e)}
+                onBlur={(e) => handleBlur(e)}
               />
             </Box>
           </Box>
