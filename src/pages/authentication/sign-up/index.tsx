@@ -176,13 +176,17 @@ const SingupPage = () => {
               Distributor Referral ID
               </p>
               <CustomInput
-                id="distrbutorID"
+                id="distributorID"
                 placeholder="User ID"
-                name={"distrbutorID"}
+                name={"distributorID"}
                 type={"text"}
-                value={values.distrbutorID}
+                value={values.distributorID}
                 onChange={(e) => handleChange(e)}
                 onBlur={(e) => handleBlur(e)}
+                error={touched.distributorID && Boolean(errors.distributorID)}
+                helperText={
+                  !!touched.distributorID && !!errors.distributorID ? errors.distributorID : ""
+                }
               />
             </Box>
           </Box>

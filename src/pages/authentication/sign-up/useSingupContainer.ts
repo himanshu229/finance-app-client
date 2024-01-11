@@ -5,10 +5,11 @@ import { regexEmail, regexPassword, regexPhonenumber } from "../../../helper";
 import axios from "axios";
 import Authentication from "../../../service/authentication";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const useSingupContainer = () => {
+  const navigation = useNavigate()
   const [isVisible, setIsVisible] = useState(false);
-
   const GenderOption = [
     { value: "", name: "Select option" },
     { value: "male", name: "Male" },
@@ -45,7 +46,7 @@ const useSingupContainer = () => {
       )
       .required("Password is required"),
   });
-  const { values, handleChange, handleBlur, touched, errors, handleSubmit } =
+  const { values, handleChange, handleBlur, touched, errors, handleSubmit, setFieldError } =
     useFormik({
       initialValues: {
         firstname: "",
@@ -55,18 +56,27 @@ const useSingupContainer = () => {
         dateofbirth: "",
         gender: "",
         password: "",
-        distrbutorID: "",
+        distributorID: "",
       },
       validationSchema: validationSchema,
       onSubmit: async (values) => {
-        try {
-          const res =await Authentication.register(values);
-          console.log(res);
-          toast.success("Registration successfully please check your mail for verify your account");
-        } catch (err) {
-          toast.error("Registration failed");
-          console.log(err);
-        }
+          const res = await Authentication.register(values);
+          if(res?.success){
+            toast.success("Registration successfully please check your mail and verify your's account");
+            navigation("/auth/login")
+          }
+          if(res?.error?.includes("E11000")){
+            if(res?.error?.includes("phonenumber")){
+              setFieldError("phonenumber", "Number already exist.")
+            }
+            if(res?.error?.includes("email")){
+              setFieldError("email", "Email already exist.")
+            }
+          }
+          console.log(res)
+          if(res?.isDistributor){
+            setFieldError("distributorID", "Distributor ID not match.")
+          }
       },
     });
 

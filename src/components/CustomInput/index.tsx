@@ -48,7 +48,7 @@ const CustomInput: FunctionComponent<PropsType> = (props) => {
     startAdornment,
     onChange,
     onBlur,
-    autoComplete = "off",
+    autoComplete,
     variant,
     name,
     disabled,
