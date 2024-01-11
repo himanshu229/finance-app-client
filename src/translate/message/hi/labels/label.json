@@ -4,5 +4,7 @@
   "lab_password": "पासवर्ड",
   "lab_submit_btn": "जमा करें",
   "lab_forget_username": "उपयोगकर्ता नाम / पासवर्ड भूल गए",
-  "lab_create_account": "अपना खाता बनाएं"
+  "lab_create_account": "अपना खाता बनाएं",
+  "lab_Forget_password_username_mobile":"उपयोगकर्ता नाम / फ़ोन नंबर",
+  "lab_forget_password":"पासवर्ड भूल गए"
 }

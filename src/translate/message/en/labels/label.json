@@ -4,5 +4,7 @@
     "lab_password": "Password",
     "lab_submit_btn": "Submit",
     "lab_forget_username": "Forgot Username / Password",
-    "lab_create_account": "Create your Account"
+    "lab_create_account": "Create your Account",
+    "lab_Forget_password_username_mobile":"Username / Mobile number",
+    "lab_forget_password":"Forgot Password"
 }
