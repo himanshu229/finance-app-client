@@ -6,9 +6,16 @@ import axios from "axios";
 import Authentication from "../../../service/authentication";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../store";
+// import { AuthRegister } from "../../../store/reducers/authSlice/thunkService";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { Dayjs } from "dayjs";
+// import { AuthRegister } from "../../../store/reducers/authSlice/thunkService";
 
 const useSingupContainer = () => {
-  const navigation = useNavigate()
+  const navigation = useNavigate();
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.authInfo.userInfo);
   const [isVisible, setIsVisible] = useState(false);
   const GenderOption = [
     { value: "", name: "Select option" },
@@ -46,39 +53,48 @@ const useSingupContainer = () => {
       )
       .required("Password is required"),
   });
-  const { values, handleChange, handleBlur, touched, errors, handleSubmit, setFieldError } =
-    useFormik({
-      initialValues: {
-        firstname: "",
-        lastname: "",
-        email: "",
-        phonenumber: "",
-        dateofbirth: "",
-        gender: "",
-        password: "",
-        distributorID: "",
-      },
-      validationSchema: validationSchema,
-      onSubmit: async (values) => {
-          const res = await Authentication.register(values);
-          if(res?.success){
-            toast.success("Registration successfully please check your mail and verify your's account");
-            navigation("/auth/login")
-          }
-          if(res?.error?.includes("E11000")){
-            if(res?.error?.includes("phonenumber")){
-              setFieldError("phonenumber", "Number already exist.")
-            }
-            if(res?.error?.includes("email")){
-              setFieldError("email", "Email already exist.")
-            }
-          }
-          console.log(res)
-          if(res?.isDistributor){
-            setFieldError("distributorID", "Distributor ID not match.")
-          }
-      },
-    });
+  const {
+    values,
+    handleChange,
+    handleBlur,
+    touched,
+    errors,
+    handleSubmit,
+    setFieldError,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      phonenumber: "",
+      dateofbirth: null,
+      gender: "",
+      password: "",
+      distributorID: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      const res = unwrapResult(await dispatch(Authentication.register(values)));
+      if (res?.success) {
+        toast.success(
+          "Registration successfully please check your mail and verify your's account"
+        );
+        navigation("/auth/login");
+      }
+      if (res?.error?.includes("E11000")) {
+        if (res?.error?.includes("phonenumber")) {
+          setFieldError("phonenumber", "Number already exist.");
+        }
+        if (res?.error?.includes("email")) {
+          setFieldError("email", "Email already exist.");
+        }
+      }
+      if (res?.isDistributor) {
+        setFieldError("distributorID", "Distributor ID not match.");
+      }
+    },
+  });
 
   return {
     values,
@@ -90,6 +106,7 @@ const useSingupContainer = () => {
     handleChange,
     handleBlur,
     setIsVisible,
+    setFieldValue,
   };
 };
 

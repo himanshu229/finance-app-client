@@ -1,18 +1,21 @@
 import {
   KeyboardBackspace,
   RemoveRedEye,
-  VisibilityOff
+  VisibilityOff,
 } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { CustomButton, CustomInput, CustomSelect } from "../../../components";
 import useSingupContainer from "./useSingupContainer";
+import CustomDatePicker from "../../../components/CustomDatePicker";
+import dayjs, { Dayjs } from "dayjs";
 
 const SingupPage = () => {
   const navigate = useNavigate();
   const {
     values,
     handleChange,
+    setFieldValue,
     handleBlur,
     touched,
     errors,
@@ -106,13 +109,11 @@ const SingupPage = () => {
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
                 Your Date of Birth <span className="text-red-600">*</span>
               </p>
-              <CustomInput
+              <CustomDatePicker
                 id="dateofbirth"
-                placeholder="Enter"
-                name={"dateofbirth"}
-                type={"date"}
                 value={values.dateofbirth}
-                onChange={(e) => handleChange(e)}
+                name={"dateofbirth"}
+                onChange={(e) => setFieldValue("dateofbirth", e)}
                 onBlur={(e) => handleBlur(e)}
                 error={touched.dateofbirth && Boolean(errors.dateofbirth)}
                 helperText={
@@ -120,6 +121,7 @@ const SingupPage = () => {
                     ? errors.dateofbirth
                     : ""
                 }
+                maxDate={dayjs().subtract(18, "year")}
               />
             </Box>
             <Box>
@@ -173,7 +175,7 @@ const SingupPage = () => {
             </Box>
             <Box>
               <p className="m-0 text-lighterBlue font-semibold text-lg pl-1">
-              Distributor Referral ID
+                Distributor Referral ID
               </p>
               <CustomInput
                 id="distributorID"
@@ -185,7 +187,9 @@ const SingupPage = () => {
                 onBlur={(e) => handleBlur(e)}
                 error={touched.distributorID && Boolean(errors.distributorID)}
                 helperText={
-                  !!touched.distributorID && !!errors.distributorID ? errors.distributorID : ""
+                  !!touched.distributorID && !!errors.distributorID
+                    ? errors.distributorID
+                    : ""
                 }
               />
             </Box>

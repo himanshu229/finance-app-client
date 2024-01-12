@@ -1,14 +1,15 @@
-import axios from "axios";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import ApiService from "../apiService";
 
 class Authentication {
-  static async register(payload: any) {
+  static register = createAsyncThunk("register/user", async (payload: any) => {
     try {
-      const { data } = await axios.post("auth/register", payload);
+      const data = await ApiService.post("auth/register", payload);
       return data;
-    } catch (error:any) {
-      return error.response.data;
+    } catch (error: any) {
+      return error.response?.data;
     }
-  }
+  });
 }
 
 export default Authentication;
