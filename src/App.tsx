@@ -4,16 +4,15 @@ import "./App.css";
 import LoginPage from "./pages/authentication/login";
 import SingupPage from "./pages/authentication/sign-up";
 import ForgetPassword from "./pages/authentication/forget-password";
+import HomePage from "./pages/landing/home";
+import CustomRoutes from "./routes";
 
 function App() {
 
   return (
-    <Routes>
-      <Route path="/" element={<LoginPage/>}/>
-      <Route path="/auth/login" element={<LoginPage/>}/>
-      <Route path="/auth/sign-up" element={<SingupPage/>}/>
-      <Route path="/auth/forget-password" element={<ForgetPassword/>}/>
-    </Routes>
+    // <Routes>
+      <CustomRoutes/>
+    // </Routes>
   );
 }
 

@@ -1,16 +1,12 @@
+import { unwrapResult } from "@reduxjs/toolkit";
 import { useFormik } from "formik";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 import { regexEmail, regexPassword, regexPhonenumber } from "../../../helper";
-import axios from "axios";
 import Authentication from "../../../service/authentication";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../store";
-// import { AuthRegister } from "../../../store/reducers/authSlice/thunkService";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { Dayjs } from "dayjs";
-// import { AuthRegister } from "../../../store/reducers/authSlice/thunkService";
 
 const useSingupContainer = () => {
   const navigation = useNavigate();

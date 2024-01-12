@@ -8,6 +8,7 @@ import { Dayjs } from "dayjs";
 import { FunctionComponent } from "react";
 
 const CustomStyledTextField = styled(Box)({
+  width: "100%",
   "& .MuiInputBase-root": {
     height: "2.5rem",
     borderRadius: "14px",
@@ -49,7 +50,7 @@ const CustomDatePicker: FunctionComponent<PropsType> = (props) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DemoContainer components={["DatePicker"]}>
+      <DemoContainer sx={{paddingTop:0}} components={["DatePicker"]}>
         <CustomStyledTextField>
           <DatePicker
             format={format}
