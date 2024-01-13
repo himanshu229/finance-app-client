@@ -1,19 +1,15 @@
-import React from "react"
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 import "./App.css";
-import LoginPage from "./pages/authentication/login";
-import SingupPage from "./pages/authentication/sign-up";
-import ForgetPassword from "./pages/authentication/forget-password";
-import HomePage from "./pages/landing/home";
 import CustomRoutes from "./routes";
 
 function App() {
-
-  return (
-    // <Routes>
-      <CustomRoutes/>
-    // </Routes>
-  );
+  useEffect(() => {
+    const lng = localStorage.getItem("lng");
+    if (!lng) {
+      localStorage.setItem("lng", "en");
+    }
+  }, []);
+  return <CustomRoutes />;
 }
 
 export default App;
