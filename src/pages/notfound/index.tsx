@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { FunctionComponent } from "react";
 
-const PageNotFound = () => {
-  return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-bl from-darkBlue via-lighterBlue to-lightestBlue">
-    <h1 className='text-white font-bold'>Page Not Found</h1>
-  </div>
-  )
+interface PropsType {
+  isGeoLocationEnable?: boolean;
+  message?: string;
 }
 
-export default PageNotFound
+const PageNotFound: FunctionComponent<PropsType> = (props) => {
+  const { isGeoLocationEnable = true, message = "" } = props;
+  return (
+    <div className="flex items-center justify-center h-screen bg-gradient-to-bl from-darkBlue via-lighterBlue to-lightestBlue">
+      <h1 className="text-white font-bold">
+        {isGeoLocationEnable ? "Page Not Found" : message}
+      </h1>
+    </div>
+  );
+};
+
+export default PageNotFound;
