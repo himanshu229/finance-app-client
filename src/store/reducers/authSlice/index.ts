@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GetCookies, RemoveCookies } from "../../../helper/Cookies";
+import { GetCookies, RemoveCookies } from "../../../helper/cookies";
+import deviceDetect from "../../../helper/deviceDetect";
 
 type UserInfo = {
   firstName: string;
@@ -18,6 +19,10 @@ type AuthType = {
   isNavigate?: boolean;
   userInfo?: any;
   coordinate: Coordinate;
+  deviceInfo: {
+    os: string;
+    browser: string;
+  };
 };
 
 const initialState: AuthType = {
@@ -28,6 +33,10 @@ const initialState: AuthType = {
     lat: 0,
     long: 0,
   },
+  deviceInfo: {
+    os: deviceDetect().os,
+    browser: deviceDetect().browser,
+  },
 };
 
 export const AuthuserSlice = createSlice({
@@ -35,7 +44,6 @@ export const AuthuserSlice = createSlice({
   initialState,
   reducers: {
     setCoordinate: (state, action: PayloadAction<Coordinate>) => {
-      console.log(action.payload)
       return {
         ...state,
         coordinate: {
@@ -59,6 +67,7 @@ export const AuthuserSlice = createSlice({
   },
 });
 
-export const { setToken, setLogOut, setUserInfo, setCoordinate } = AuthuserSlice.actions;
+export const { setToken, setLogOut, setUserInfo, setCoordinate } =
+  AuthuserSlice.actions;
 
 export default AuthuserSlice.reducer;

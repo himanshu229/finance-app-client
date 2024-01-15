@@ -5,7 +5,6 @@ import PageNotFound from "./pages/notfound";
 import { useGeolocated } from "react-geolocated";
 import { useAppDispatch } from "./store";
 import { setCoordinate } from "./store/reducers/authSlice";
-
 function App() {
   const dispatch = useAppDispatch();
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
