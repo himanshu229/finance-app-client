@@ -5,9 +5,11 @@ import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../../store";
 import Authentication from "../../../service/authentication";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const useLoginContainer = () => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigate();
   const { t } = useTranslation();
   const userInfo = useAppSelector((state) => state.authInfo);
   const validationSchema = yup.object({
@@ -25,19 +27,20 @@ const useLoginContainer = () => {
       },
       validationSchema: validationSchema,
       onSubmit: async (values) => {
-        const res = unwrapResult(
-          await dispatch(
-            Authentication.login({
-              ...values,
-              device: userInfo.deviceInfo,
-              location: userInfo.coordinate,
-            })
-          )
-        );
-        if (res?.isLogin) {
-          toast.success(res.message);
-        } else {
-          toast.error(JSON.stringify(res.error));
+        try {
+          const res: any = unwrapResult(
+            await dispatch(
+              Authentication.login({
+                ...values,
+                device: userInfo.deviceInfo,
+                location: userInfo.coordinate,
+              })
+            )
+          );
+          toast.success(res?.message);
+          navigation("/");
+        } catch (error: any) {
+          toast.error(JSON.stringify(error?.error));
         }
       },
     });

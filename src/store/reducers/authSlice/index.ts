@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GetCookies, RemoveCookies } from "../../../helper/cookies";
+import { GetCookies, RemoveCookies, SetCookies } from "../../../helper/cookies";
 import deviceDetect from "../../../helper/deviceDetect";
+import Authentication from "../../../service/authentication";
 
 type UserInfo = {
   firstName: string;
@@ -26,7 +27,7 @@ type AuthType = {
 };
 
 const initialState: AuthType = {
-  token: GetCookies("token"),
+  token: GetCookies("auth_user"),
   isNavigate: false,
   userInfo: undefined,
   coordinate: {
@@ -52,22 +53,21 @@ export const AuthuserSlice = createSlice({
         },
       };
     },
-    setToken: (state, action: PayloadAction<AuthType>) => {
+  },
+  extraReducers: (builder) => {
+    builder.addCase(Authentication.login.pending, (state, action) => {});
+    builder.addCase(Authentication.login.fulfilled, (state, action: any) => {
       state.token = action.payload.token;
-    },
-    setLogOut: (state) => {
-      RemoveCookies("token");
-      state.token = null;
-    },
-    setUserInfo: (state, action: PayloadAction<UserInfo>) => {
-      return {
-        ...state,
-      };
-    },
+      SetCookies({
+        name: "auth_user",
+        value: action.payload.token,
+        exdays: Number(action.payload.expireDay),
+      });
+    });
+    builder.addCase(Authentication.login.rejected, (state, action) => {});
   },
 });
 
-export const { setToken, setLogOut, setUserInfo, setCoordinate } =
-  AuthuserSlice.actions;
+export const { setCoordinate } = AuthuserSlice.actions;
 
 export default AuthuserSlice.reducer;
