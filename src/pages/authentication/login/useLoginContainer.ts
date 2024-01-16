@@ -28,7 +28,7 @@ const useLoginContainer = () => {
       validationSchema: validationSchema,
       onSubmit: async (values) => {
         try {
-          const res: any = unwrapResult(
+          const res = unwrapResult(
             await dispatch(
               Authentication.login({
                 ...values,
