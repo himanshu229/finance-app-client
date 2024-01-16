@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GetCookies, RemoveCookies } from "../../../helper/cookies";
 import deviceDetect from "../../../helper/deviceDetect";
-import { GetCookies, RemoveCookies } from "../../../helper/cookiesStore";
+import { GetCookies, SetCookies } from "../../../helper/cookiesStore";
 import Authentication from "../../../service/authentication";
 
 type UserInfo = {
