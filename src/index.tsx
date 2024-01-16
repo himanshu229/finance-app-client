@@ -9,18 +9,21 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { setupStore } from "./store";
 import "./translate/i18n";
+import ErrorBoundary from "./components/ErrorBoundary";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-const store = setupStore()
+const store = setupStore();
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-    <BrowserRouter>
-      <ToastContainer />
-      <App />
-    </BrowserRouter>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <BrowserRouter>
+          <ToastContainer />
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
 reportWebVitals();
