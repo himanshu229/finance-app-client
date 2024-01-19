@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../store";
 import Authentication from "../../../service/authentication";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import UserInfo from "../../../service/userInfo";
 
 const useLoginContainer = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,7 @@ const useLoginContainer = () => {
             )
           );
           toast.success(res?.message);
+          unwrapResult(await dispatch(UserInfo.information()));
           navigation("/");
         } catch (error: any) {
           toast.error(JSON.stringify(error?.error));

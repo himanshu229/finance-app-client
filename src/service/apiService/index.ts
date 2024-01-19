@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { GetCookies } from "../../helper/cookiesStore";
 
 interface ApiService {
   get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
@@ -23,6 +24,7 @@ const commonInstance = createInstance(
   10000,
   {
     "X-Custom-Header": "foobar",
+    "Authorization": `Bearer ${GetCookies("auth_user")}`
   }
 );
 

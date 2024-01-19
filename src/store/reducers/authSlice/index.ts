@@ -2,14 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import deviceDetect from "../../../helper/deviceDetect";
 import { GetCookies, SetCookies } from "../../../helper/cookiesStore";
 import Authentication from "../../../service/authentication";
-
-type UserInfo = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  id: string;
-  phoneNumber: string;
-};
+import UserInfo from "../../../service/userInfo";
 
 type Coordinate = {
   lat?: number;
@@ -20,6 +13,10 @@ type AuthType = {
   isNavigate?: boolean;
   userInfo?: any;
   coordinate: Coordinate;
+  validate: {
+    isEmailVerified: boolean;
+    isPhoneVerified: boolean;
+  };
   deviceInfo: {
     os: string;
     browser: string;
@@ -33,6 +30,10 @@ const initialState: AuthType = {
   coordinate: {
     lat: 0,
     long: 0,
+  },
+  validate: {
+    isEmailVerified: false,
+    isPhoneVerified: false,
   },
   deviceInfo: {
     os: deviceDetect().os,
@@ -65,9 +66,19 @@ export const AuthuserSlice = createSlice({
       });
     });
     builder.addCase(Authentication.login.rejected, (state, action) => {});
+    builder.addCase(UserInfo.information.pending, (state, action) => {});
+    builder.addCase(UserInfo.information.fulfilled, (state, action: any) => {
+      state.validate = {
+        isEmailVerified: action.payload.isEmailVerified,
+        isPhoneVerified: action.payload.isPhoneVerified,
+      };
+      state.userInfo = action.payload;
+    });
+    builder.addCase(UserInfo.information.rejected, (state, action) => {});
   },
 });
 
 export const { setCoordinate } = AuthuserSlice.actions;
 
 export default AuthuserSlice.reducer;
+

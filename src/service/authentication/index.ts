@@ -8,13 +8,6 @@ interface LoginApiResponse {
     expireDay: number,
 }
 
-interface ApiError {
-  // Define the structure of your error response
-  status: string;
-  message: string;
-  // Other fields as needed
-}
-
 class Authentication {
   static register = createAsyncThunk("auth/register", async (payload: any, thunkAPI) => {
     try {
@@ -28,7 +21,8 @@ class Authentication {
     "auth/login",
     async (payload: any, thunkAPI) => {
       try {
-        const data = await ApiService.post("auth/login", payload);
+        const data:any = await ApiService.post("auth/login", payload);
+        ApiService.setToken(data.token)
         return thunkAPI.fulfillWithValue(data as LoginApiResponse);
       } catch (error: any) {
         throw thunkAPI.rejectWithValue(error.response?.data);

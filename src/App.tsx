@@ -1,12 +1,14 @@
-import { useEffect, useMemo } from "react";
-import "./App.css";
-import CustomRoutes from "./routes";
-import PageNotFound from "./pages/notfound";
+import { useEffect, useMemo, useState } from "react";
 import { useGeolocated } from "react-geolocated";
-import { useAppDispatch } from "./store";
+import VerifyAccount from "./pages/authentication/verify-account/Index";
+import PageNotFound from "./pages/notfound";
+import CustomRoutes from "./routes";
+import { useAppDispatch, useAppSelector } from "./store";
 import { setCoordinate } from "./store/reducers/authSlice";
+import UserInfo from "./service/userInfo";
 function App() {
   const dispatch = useAppDispatch();
+  const token = useAppSelector((state) => state.authInfo.token);
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
@@ -18,6 +20,9 @@ function App() {
     const lng = localStorage.getItem("lng");
     if (!lng) {
       localStorage.setItem("lng", "en");
+    }
+    if (!!token) {
+      dispatch(UserInfo.information());
     }
   }, []);
 
@@ -49,6 +54,7 @@ function App() {
       message: "",
       isRoute: true,
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isGeolocationAvailable,
     isGeolocationEnabled,
@@ -57,7 +63,10 @@ function App() {
   ]);
 
   return isEnableGeoLocation.isEnable ? (
-    <CustomRoutes />
+    <>
+      <CustomRoutes />
+      <VerifyAccount />
+    </>
   ) : (
     <PageNotFound
       isGeoLocationEnable={isEnableGeoLocation.isEnable}
