@@ -3,13 +3,14 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../store";
 import { RoutePath } from "./Route";
 import { CircularProgress } from "@mui/material";
+import VerifyAccount from "../pages/authentication/verify-account/Index";
 
 const CustomSuspense = ({ children }: any) => (
   <Suspense
     fallback={
       <div className="flex items-center justify-center h-screen bg-gradient-to-bl from-darkBlue via-lighterBlue to-lightestBlue">
-      <CircularProgress sx={{ color: "white" }} size={80} />
-    </div>
+        <CircularProgress sx={{ color: "white" }} size={80} />
+      </div>
     }
   >
     {children}
@@ -36,15 +37,18 @@ const CustomRoutes: FunctionComponent = () => {
 
   if (!!token) {
     return (
-      <Routes>
-        {RoutePath.private.map((item, index) => (
-          <Route
-            key={index}
-            path={item.path}
-            element={<CustomSuspense>{item.element}</CustomSuspense>}
-          />
-        ))}
-      </Routes>
+      <>
+        <Routes>
+          {RoutePath.private.map((item, index) => (
+            <Route
+              key={index}
+              path={item.path}
+              element={<CustomSuspense>{item.element}</CustomSuspense>}
+            />
+          ))}
+        </Routes>
+        <VerifyAccount/>
+      </>
     );
   } else {
     return (

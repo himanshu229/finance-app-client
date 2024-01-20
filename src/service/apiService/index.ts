@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { GetCookies } from "../../helper/cookiesStore";
 
-interface ApiService {
+interface ApiServiceType {
   get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
   post<T>(url: string, data: any, config?: AxiosRequestConfig): Promise<T>;
   delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
@@ -24,7 +24,6 @@ const commonInstance = createInstance(
   10000,
   {
     "X-Custom-Header": "foobar",
-    "Authorization": `Bearer ${GetCookies("auth_user")}`
   }
 );
 
@@ -32,7 +31,7 @@ const updateToken = (instance: any, newToken: string) => {
   instance.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 };
 
-const ApiService: ApiService = {
+const ApiService: ApiServiceType = {
   get: async <T>(url: string, config?: AxiosRequestConfig) => {
     try {
       const response = await commonInstance.get<T>(url, config);

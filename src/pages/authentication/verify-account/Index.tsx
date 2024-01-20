@@ -6,6 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { CustomButton, CustomInput } from "../../../components";
 import useVerifyAccountContainer from "./useVerifyAccountContainer";
+import { useEffect, useMemo, useState } from "react";
 
 const VerifyAccount = () => {
   const {
@@ -17,14 +18,46 @@ const VerifyAccount = () => {
     setPhoneOtp,
     phoneEnable,
     emailEnable,
-    setPhoneEnable,
-    setEmailEnable,
+    handleSendOtp,
+    getTime,
+    emailOtpTimer,
+    phoneOtpTimer,
+    handleVerifyOtp,
   } = useVerifyAccountContainer();
-  return (
-    <Dialog open={!validate.isEmailVerified || !validate.isPhoneVerified}>
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const text = useMemo(() => {
+    if (userInfo?.isEmailVerified && userInfo?.isPhoneVerified) {
+      return {
+        color: "#39e239",
+        text: "you are successfully verified. Please give the some moment.",
+      };
+    } else {
+      return {
+        color: "#6b7793",
+        text: "please complete your verification process.",
+      };
+    }
+  }, [userInfo?.isEmailVerified, userInfo?.isPhoneVerified]);
+
+  useEffect(() => {
+    if (validate === false) {
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 4000);
+    } else {
+      if (validate) setIsOpen(validate);
+    }
+  }, [validate]);
+
+  return validate === null ? (
+    <></>
+  ) : (
+    <Dialog open={isOpen}>
       <Box className="p-6">
-        <DialogTitle className="sm:font-normal text-[1rem] leading-5 italic text-[#6b7793]">
-          Hey! {userInfo?.firstname} please complete your verification process.
+        <DialogTitle
+          className={`sm:font-normal text-[1rem] leading-5 italic text-[${text.color}]`}
+        >
+          Hey! {userInfo?.firstname} {text.text}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -37,33 +70,36 @@ const VerifyAccount = () => {
                   type={"email"}
                   onChange={() => {}}
                 />
-                {validate?.isEmailVerified && (
+                {userInfo?.isEmailVerified && (
                   <Verified className="text-green-500 mt-2 ml-2" />
                 )}
               </Box>
-              {!validate?.isEmailVerified && (
-                <CustomButton
-                  onClick={() =>
-                    setEmailEnable({
-                      ...emailEnable,
-                      isOtpEnable: true,
-                    })
-                  }
-                  text={emailEnable.isSend ? "Verify" : "Resend"}
-                  className="w-24 mt-1 mr-3"
-                />
-              )}
+              {!userInfo?.isEmailVerified &&
+                (emailEnable.isTimer ? (
+                  <p className="mr-4 mt-2 mb-1">{getTime(emailOtpTimer)}</p>
+                ) : (
+                  <CustomButton
+                    onClick={() => handleSendOtp("email", !emailEnable.isTimer)}
+                    text={emailEnable.isSend ? "Verify" : "Resend"}
+                    className="w-24 mt-1 mr-3"
+                  />
+                ))}
             </Box>
-            {emailEnable.isOtpEnable && (
+            {!userInfo?.isEmailVerified && emailEnable.isOtpEnable && (
               <Box className="sm:flex w-full">
                 <Box className="sm:w-96 mr-3 mt-2">
                   <CustomInput
                     value={emailOtp}
                     name={"emailOtp"}
+                    placeholder="Enter OTP"
                     type={"number"}
                     onChange={(e) => {
-                      if (e.target.value?.length <= 6) {
+                      let value = e.target.value?.length;
+                      if (value <= 6) {
                         setEmailOtp(e.target.value);
+                      }
+                      if (value === 6) {
+                        handleVerifyOtp(e.target.value, "email");
                       }
                     }}
                   />
@@ -72,7 +108,7 @@ const VerifyAccount = () => {
               </Box>
             )}
             <Box className="sm:flex w-full text-end mt-3 sm:mt-6">
-              <Box className="sm:w-96 mr-3">
+              <Box className="sm:w-96 mr-3 flex">
                 <CustomInput
                   value={userInfo?.phonenumber}
                   disabled
@@ -80,27 +116,38 @@ const VerifyAccount = () => {
                   type={"number"}
                   onChange={() => {}}
                 />
-                {validate?.isPhoneVerified && (
+                {userInfo?.isPhoneVerified && (
                   <Verified className="text-green-500 mt-2 ml-2" />
                 )}
               </Box>
-              {!validate?.isPhoneVerified && (
-                <CustomButton
-                  text={phoneEnable.isSend ? "Verify" : "Resend"}
-                  className="w-24 mt-1 mr-3"
-                />
-              )}
+              {!userInfo?.isPhoneVerified &&
+                (phoneEnable.isTimer ? (
+                  <p className="mr-4 mt-2 mb-1">{getTime(phoneOtpTimer)}</p>
+                ) : (
+                  <CustomButton
+                    onClick={() =>
+                      handleSendOtp("phonenumber", !phoneEnable.isTimer)
+                    }
+                    text={phoneEnable.isSend ? "Verify" : "Resend"}
+                    className="w-24 mt-1 mr-3"
+                  />
+                ))}
             </Box>
-            {phoneEnable.isOtpEnable && (
+            {!userInfo.isPhoneVerified && phoneEnable.isOtpEnable && (
               <Box className="sm:flex w-full">
                 <Box className="sm:w-96 mr-3 mt-2">
                   <CustomInput
                     value={phoneOtp}
                     name={"phoneOtp"}
                     type={"number"}
+                    placeholder="Enter OTP"
                     onChange={(e) => {
-                      if (e.target.value?.length <= 6) {
+                      let value = e.target.value?.length;
+                      if (value <= 6) {
                         setPhoneOtp(e.target.value);
+                      }
+                      if (value === 6) {
+                        handleVerifyOtp(e.target.value, "phonenumber");
                       }
                     }}
                   />

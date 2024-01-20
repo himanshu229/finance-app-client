@@ -1,20 +1,40 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import ApiService from "../apiService";
 
-interface LoginApiResponse {
-  message: string;
-  isLogin: boolean;
-  token: string;
-  expireDay: number;
-}
-
 class UserInfo {
-  static information = createAsyncThunk(
-    "user/info",
+  static userInfomation = createAsyncThunk(
+    "user/information",
     async (payload, thunkAPI) => {
       try {
         const data: any = await ApiService.get("user/info");
-        console.log(data.data)
+        return thunkAPI.fulfillWithValue(data?.data);
+      } catch (error: any) {
+        throw thunkAPI.rejectWithValue(error.response?.data);
+      }
+    }
+  );
+  static generateOtp = createAsyncThunk(
+    "otp/email_phonenumber",
+    async (payload: any, thunkAPI) => {
+      try {
+        const data: any = await ApiService.put(
+          "otp/email_phonenumber",
+          payload
+        );
+        return thunkAPI.fulfillWithValue(data?.data);
+      } catch (error: any) {
+        throw thunkAPI.rejectWithValue(error.response?.data);
+      }
+    }
+  );
+  static verifyOtp = createAsyncThunk(
+    "otp/email_phonenumber/verify",
+    async (payload: any, thunkAPI) => {
+      try {
+        const data: any = await ApiService.put(
+          `otp/email_phonenumber/${payload.otp}`,
+          payload.data
+        );
         return thunkAPI.fulfillWithValue(data?.data);
       } catch (error: any) {
         throw thunkAPI.rejectWithValue(error.response?.data);

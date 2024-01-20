@@ -13,10 +13,7 @@ type AuthType = {
   isNavigate?: boolean;
   userInfo?: any;
   coordinate: Coordinate;
-  validate: {
-    isEmailVerified: boolean;
-    isPhoneVerified: boolean;
-  };
+  validate: boolean | null;
   deviceInfo: {
     os: string;
     browser: string;
@@ -31,10 +28,7 @@ const initialState: AuthType = {
     lat: 0,
     long: 0,
   },
-  validate: {
-    isEmailVerified: false,
-    isPhoneVerified: false,
-  },
+  validate: null,
   deviceInfo: {
     os: deviceDetect().os,
     browser: deviceDetect().browser,
@@ -66,19 +60,17 @@ export const AuthuserSlice = createSlice({
       });
     });
     builder.addCase(Authentication.login.rejected, (state, action) => {});
-    builder.addCase(UserInfo.information.pending, (state, action) => {});
-    builder.addCase(UserInfo.information.fulfilled, (state, action: any) => {
-      state.validate = {
-        isEmailVerified: action.payload.isEmailVerified,
-        isPhoneVerified: action.payload.isPhoneVerified,
-      };
+    builder.addCase(UserInfo.userInfomation.pending, (state, action) => {});
+    builder.addCase(UserInfo.userInfomation.fulfilled, (state, action: any) => {
+      state.validate =
+        !action.payload.isEmailVerified || !action.payload.isPhoneVerified;
+
       state.userInfo = action.payload;
     });
-    builder.addCase(UserInfo.information.rejected, (state, action) => {});
+    builder.addCase(UserInfo.userInfomation.rejected, (state, action) => {});
   },
 });
 
 export const { setCoordinate } = AuthuserSlice.actions;
 
 export default AuthuserSlice.reducer;
-

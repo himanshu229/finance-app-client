@@ -7,6 +7,10 @@ import Authentication from "../../../service/authentication";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import UserInfo from "../../../service/userInfo";
+import {
+  startLoading,
+  stopLoading,
+} from "../../../store/reducers/loadingSlice";
 
 const useLoginContainer = () => {
   const dispatch = useAppDispatch();
@@ -39,8 +43,10 @@ const useLoginContainer = () => {
             )
           );
           toast.success(res?.message);
-          unwrapResult(await dispatch(UserInfo.information()));
-          navigation("/");
+          dispatch(
+            UserInfo.userInfomation()
+          );
+          navigation("/")
         } catch (error: any) {
           toast.error(JSON.stringify(error?.error));
         }
